@@ -1,0 +1,16 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull and Restart
+        run: |
+          cd /home/gabriel/PasteApp/PasteApp
+          git pull
+          sudo systemctl restart pasteapp
