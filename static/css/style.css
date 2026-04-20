@@ -1,0 +1,137 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+body{
+    background-color: #0C1B33;
+}
+
+.contenedor{
+    background: #0C1B33;
+    padding: 20px;
+    color: #B2AA8E;
+    min-height: 100vh;
+}
+
+#contenedor_area_texto{
+    width: 90%;
+    margin: auto;
+    position: relative;
+}
+
+#txt_area_paste{
+    resize: none;
+    width: 100%;
+    background-color: transparent;
+    color: #B2AA8E;
+    border: 3px solid #B2AA8E;
+    height: 200px;
+    padding: 10px;
+    border-radius: 0 10px 1rem 10px;
+    font-size: 20px;
+    box-sizing: border-box;
+}
+textarea:focus{
+    outline: none;
+}
+
+#btn_copiar{
+    position: absolute;
+    bottom: 50px;
+    right: 0;
+    height: 30px;
+    width: 50px;
+    background-color: #B2AA8E;
+    border: none;
+
+}
+
+.port{
+    font-size: 16px;
+    border-top: 3px solid #B2AA8E;
+    border-left: 3px solid #B2AA8E;
+    border-right: 3px solid #B2AA8E;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 10px 1rem 0 0;
+}
+
+#contenedor_area_archivo{
+    border: 3px solid #B2AA8E;
+    width: 90%;
+    margin: auto;
+    min-height: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.archivo{
+    border: 3px solid #B2AA8E;
+    padding: 5px;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.disponible{
+    min-height: 100px;
+}
+
+#input_file{
+    border: none;
+}
+.btn{
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 30px;
+    width: 80px;
+    border: none;
+    padding: 4px;
+    background-color: #031;
+    color: #B2AA8E;
+}
+.btn:active{
+    scale: 0.9;
+}
+
+#barr{
+    width: 90%;
+    margin: auto;
+    border: 3px solid #B2AA8E;
+    margin-top: 20px;
+    padding: 0;
+    height: 20px;
+    position: relative;
+}
+#progress_barr{
+    background-color: #B2AA8E;
+    color: #0C1B33;
+    width: 0%;
+    height: 100%;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#dwl{
+    text-decoration: none;
+    color: #0C1B33;
+    background-color: #B2AA8E;
+    padding: 5px;
+    margin: auto;
+    display: inline-block;
+    
+}
+
+#video{
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+}
+#txt_archivo{
+    margin: 10px;
+}

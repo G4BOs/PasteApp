@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PASTE-APP</title>
+    <link rel="stylesheet" href="static/css/atom-one-dark.min.css">    
+</head>
+
+<!-- ESTILOS  -->
+<style>
+    #txt_area_paste{
+        width: 90%;
+        height: 90%;
+    }
+    body{
+        color: white;
+        background-color: black;
+        font-family: Arial, Helvetica, sans-serif;
+        text-align: center;
+    }
+    textarea{
+        border-style: none;
+        background-color: black;
+        border: 2px solid white;
+        color: white;
+    }
+
+    #barr{
+        margin: auto;
+        height: 28px;
+        width: 90%;
+        background-color: whitesmoke;
+        position: relative;
+        border-radius: 1rem;
+    }
+    #progress_barr{
+        height: 98%;
+        width: 0%;
+        background-color: black;
+        border: 1px solid white;
+        position: relative;
+        border-radius: 1rem;
+
+    }
+    #contenedor_area_texto{
+        background-color: rgba(255,255,255,0.1);
+
+    }
+    #contenedor_area_archivo{
+        border: 1px solid white;
+    }
+    #porcentaje{
+        position: relative;
+        top: -10px;
+    }
+
+    button{
+        border: none;
+        font-size: 13px;
+    }
+
+</style>
+
+<!-- BODY -->
+<body>
+    <section id="contenedor_area_texto"> <!-- Area de texto -->
+            
+        <h5>Portapapeles</h5> 
+        <textarea name="paste" id="txt_area_paste" cols="30" rows="10"></textarea>
+    
+    </section>
+
+<section id="contenedor_area_archivo">
+   <h2>Subir Archivo</h2>
+   <input style="border: none;" id="input_file" type="file">
+   <button onclick="subir()">Subir Archivo</button>
+
+    <div id="barr"> <div id="progress_barr"> <p id="porcentaje">0</p> </div></div>
+    <p id='txt_archivo'><strong>Archivo disponible:</strong> Ninguno </p>
+   <a href="/download"><button>Descargar</button></a>
+   <video src="/video" controls></video>
+</section>
+
+   <button id="btn_copiar" >Copiar al Portapapeles</button>
+   <pre><code style="text-align: left;" id="codigo"></code></pre>
+
+</body>
+<script src="static/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script src="static/js/socket.io.min.js"></script>
+<script src="static/js/script.js"></script>
+</html>

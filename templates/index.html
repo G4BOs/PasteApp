@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paste App</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/atom-one-dark.min.css">
+</head>
+<body>
+    <!--Contenedor principal-->
+   <div class="contenedor">
+        <section id="contenedor_area_texto">
+            <p class="p port">Portapapeles</p><br>
+            <textarea 
+                id="txt_area_paste"
+                    spellcheck="false"
+                    placeholder="Escriba aqui"
+                    value=""
+                ></textarea>
+            <pre>
+            <code id="codigo">
+            </code>
+            <button id="btn_copiar">Copiar</button>
+            </pre>
+        </section>
+        <section id="contenedor_area_archivo">
+            <p class="p port">Subir Archivo</p>
+            <div class="archivo">
+                <input type="file" id="input_file">
+                <button class="btn" onclick="subir()">Subir</button>
+                <div id="barr">
+                    <div id="progress_barr">
+                        <p id="porcentaje">0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="archivo disponible">
+                <p id="txt_archivo"><strong>Archivo disponible:</strong> Ninguno</p>
+                <a id="dwl" href="/download">DESCARGAR</a>
+            </div>
+            <video id="video" src="/video" controls></video>
+
+        </section>
+    
+
+
+   </div> 
+</body>
+<script src="/static/js/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<script src="/static/js/socket.io.min.js"></script>
+<script src="/static/js/script.js"></script>
+</html>
