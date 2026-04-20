@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Pull and Restart
-      run: |
-        cd /home/gabriel/PasteApp/PasteApp
-        git pull
-        sudo systemctl restart pasteapp
+        run: |
+          cd /home/gabriel/PasteApp/PasteApp
+          git pull
+          sudo systemctl restart pasteapp
