@@ -16,8 +16,18 @@ ult_arch = ''
 
 def cargar_nombre():
     global ult_arch
-    with open('uploads/info.txt', 'r') as f:
-        ult_arch = f.read()
+    try:
+
+
+        with open('uploads/info.txt', 'r') as f:
+            ult_arch = f.read()
+    except FileNotFoundError:
+        ult_arch = ""
+        with open('uploads/info.txt', "w") as f:
+            f.write("")
+
+
+
 
 cargar_nombre()
 
