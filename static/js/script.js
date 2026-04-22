@@ -4,6 +4,7 @@ const txt_area = document.querySelector("#txt_area_paste");
 const progress_barr = document.querySelector("#progress_barr");
 const porcentaje_barr = document.querySelector("#porcentaje");
 const video_a = document.querySelector("#video");
+const imagen_a= document.querySelector("#imagen");
 
 const copiar_btn = document.querySelector("#btn_copiar");
 copiar_btn.addEventListener('click', ()=>{
@@ -39,6 +40,17 @@ socket.on("video", (data)=>{
         video_a.style.display = "none"
     }
 });
+
+socket.emit('verific_imagen');
+socket.on('imagen',(data)=>{
+  if (data){
+    imagen_a.style.display = 'inline-block';
+  }
+  else{
+    imagen_a.style.display = 'none';
+  }
+});
+
 
 socket.on('ult_archivo', (data)=>{
     document.getElementById('txt_archivo').innerHTML = `<strong>Archivo disponible:</strong> ${data}`;

@@ -132,6 +132,12 @@ textarea:focus{
     max-width: 400px;
     margin: auto;
 }
+#imagen{
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+}
+
 #txt_archivo{
     margin: 10px;
 }

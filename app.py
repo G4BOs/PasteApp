@@ -11,7 +11,7 @@ socketio = SocketIO(app, async_mode='gevent')
 #SERVIDOR INICIADO 
 print("SERVIDOR INICIADO EN PUERTO 9000")
 
-txt = 'gfgfgfg'
+txt = ''
 ult_arch = ''
 
 def cargar_nombre():
@@ -28,6 +28,12 @@ def verificar_video():
     else:
         return False
 
+def verificar_imagen():
+    cargar_nombre()
+    if '.png' in ult_arch or '.jpg' in ult_arch:
+        return True
+    else:
+        return False
 
 @app.route('/')
 def index():
@@ -54,11 +60,22 @@ def video():
         return send_file('uploads/ultimo', download_name=ult_arch, as_attachment=True)
     else:
         print("No es un video")
-        return 404
+        return '404'
+
+@app.route('/imagen', methods=['GET'])
+def imagen():
+    if '.jpg' in ult_arch or '.png' in ult_arch:
+        return send_file('uploads/ultimo', download_name=ult_arch, as_attachment=True)
+    else:
+        return '404'
 
 @socketio.on('verific_video')
 def verific_video():
     emit("video", verificar_video(),broadcast=True)
+
+@socketio.on('verific_imagen')
+def verific_imagen():
+    emit('imagen',verificar_imagen(),broadcast=True)
 
 @socketio.on('txt_change')
 def handle_txtChange(data):
