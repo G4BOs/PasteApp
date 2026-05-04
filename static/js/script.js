@@ -35,6 +35,7 @@ socket.emit("verific_video");
 socket.on("video", (data)=>{
     if (data){
         video_a.style.display = "inline-block";
+        video_a.load();
     }
     else{
         video_a.style.display = "none"
