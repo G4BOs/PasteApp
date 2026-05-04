@@ -100,4 +100,4 @@ def handle_connect():
     emit('txt_recive', txt)
 
 if __name__ == '__main__':
-    socketio.run(app,host='0.0.0.0', debug=False, port=9000)
+    socketio.run(app,host='0.0.0.0', debug=False, port=9002)
