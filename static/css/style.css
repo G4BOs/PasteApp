@@ -141,3 +141,13 @@ textarea:focus{
 #txt_archivo{
     margin: 10px;
 }
+
+.btn-subir{
+  background-color: #B2AA8E;
+  color: #0C1B33;
+  box-sizing: border-box;
+  margin: 5px;
+  padding: 2px;
+  border-radius: 5px;
+  cursor: pointer;
+}

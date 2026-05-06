@@ -5,6 +5,12 @@ const progress_barr = document.querySelector("#progress_barr");
 const porcentaje_barr = document.querySelector("#porcentaje");
 const video_a = document.querySelector("#video");
 const imagen_a= document.querySelector("#imagen");
+const inp_file = document.querySelector('#input_file');
+const inp_file_btn = document.querySelector('.btn-subir');
+
+inp_file.addEventListener('change', ()=>{
+  inp_file_btn.textContent = `Archivo elegido: ${inp_file.files[0]?.name}`
+});
 
 const copiar_btn = document.querySelector("#btn_copiar");
 copiar_btn.addEventListener('click', ()=>{
