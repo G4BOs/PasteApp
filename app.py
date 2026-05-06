@@ -1,15 +1,19 @@
 from flask import Flask, jsonify, request, render_template, redirect, send_file
 from flask_socketio import SocketIO, emit, disconnect
 import gevent
-
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
+import secrets
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = 'mi_clave'
+app.config["SECRET_KEY"] = os.getenv('SECRET_KEY')
 socketio = SocketIO(app, async_mode='gevent')
+port = int( os.getenv('PORT', '9000') )
 
 #SERVIDOR INICIADO 
-print("SERVIDOR INICIADO EN PUERTO 9000")
+print(f"SERVIDOR INICIADO EN PUERTO: {port}")
+
 
 txt = ''
 ult_arch = ''
@@ -54,7 +58,7 @@ def upload():
     archivo = request.files['archivo']
     archivo.save('uploads/ultimo')
     with open('uploads/info.txt','w') as f:
-        f.write(archivo.filename)
+        f.write(archivo.filename )
     cargar_nombre()
     socketio.emit('ult_archivo',ult_arch)
     return jsonify({'ok':True})
@@ -79,6 +83,28 @@ def imagen():
     else:
         return '404'
 
+# -------------------------------------------------------------------|
+def tipo_de_archivo(archivo):
+    formats = {
+            'video': ['mp4','avi'],
+            'imagen': ['png', 'jpg', 'jepg'],
+            'sonido': ['mp3']
+            }
+    for types in formats: # Itera sobre todos los tipos de archivos
+        for frmts in formats[types]: # itera por cada formato
+            if frmts in archivo: # Si un formato coincide con alguno
+                return types # retorna el tipo
+
+
+
+#--------------------------------------------------------------------|
+def enviar_archivo(archivo):
+    tipo = tipo_de_archivo(archivo)
+    socketio.emit('cargar_archivo',{'tipo': tipo, 'ruta': f'/{tipo}'})
+
+
+# -------------------------------------------------------------------|
+
 @socketio.on('verific_video')
 def verific_video():
     emit("video", verificar_video(),broadcast=True)
@@ -92,6 +118,7 @@ def handle_txtChange(data):
     global txt
     txt = data
     emit("txt_recive",data, broadcast=True)
+    enviar_archivo(ult_arch)
 
 @socketio.on('connect')
 def handle_connect():

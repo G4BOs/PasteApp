@@ -52,6 +52,7 @@ socket.emit('verific_imagen');
 socket.on('imagen',(data)=>{
   if (data){
     imagen_a.style.display = 'inline-block';
+    imagen_a.src = '/imagen?' + Date.now();
   }
   else{
     imagen_a.style.display = 'none';
@@ -85,4 +86,8 @@ function subir(){
     xhr.open('POST', '/upload');
     xhr.send(formData);
 };
+
+socket.on('cargar_archivo',(data)=>{
+  console.log(data.tipo,data.ruta)
+});
 
