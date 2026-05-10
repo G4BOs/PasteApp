@@ -1,6 +1,7 @@
 # IMPORTS 
 from flask import Flask, jsonify, request, render_template, redirect, send_file, session
 from flask_socketio import SocketIO, emit, disconnect
+from flask_sock import Sock
 import gevent
 import os
 from dotenv import load_dotenv
@@ -11,6 +12,8 @@ import secrets
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv('SECRET_KEY')
 socketio = SocketIO(app, async_mode='gevent')
+sock = Sock(app)
+
 port = int( os.getenv('PORT', '9000') )
 #SERVIDOR INICIADO 
 print(f"SERVIDOR INICIADO EN PUERTO: {port}")
@@ -42,6 +45,13 @@ cargar_nombre()
 def api():
     datos = {'prueba': 'OK', 'dato': 999, 'nombre': 'Daniel', 'message': 'Hola DANIEL'}
     return jsonify(datos)
+
+@sock.route('/ws')
+def websocket(ws):
+    while True:
+        data = ws.receive()
+        ws.send(data)
+
 
 @app.route('/')
 def index():
