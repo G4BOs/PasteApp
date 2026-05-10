@@ -132,6 +132,7 @@ def handle_connect():
         session['usr_sid'] = request.sid # type: ignore
     cargar_nombre()
     emit('ult_archivo', ult_arch)
+    txt = r.get('texto')
     emit('txt_recive', txt)
 
 # *************************************************************************|
