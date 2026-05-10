@@ -7,6 +7,10 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 import secrets
+import redis
+
+# -------------------------------------------------|
+r = redis.Redis(host='192.168.88.244', port=6379, decode_responses=True)
 
 # -------------------------------------------------|
 app = Flask(__name__)
@@ -116,6 +120,7 @@ def handle_verificar_archivo_disponible():
 def handle_txtChange(data):
     global txt
     txt = data
+    r.set('texto',txt)
     emit("txt_recive",data, broadcast=True, skip_sid=session.get('usr_sid'))
     enviar_archivo(ult_arch)
 
