@@ -80,7 +80,7 @@ def tipo_de_archivo(archivo):
         for frmts in formats[types]: # itera por cada formato
             if frmts in archivo: # Si un formato coincide con alguno
                 return types # retorna el tipo
-
+    return 'otro'
 
 
 #--------------------------------------------------------------------|

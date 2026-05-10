@@ -22,18 +22,16 @@ function crear_elemento_media(tipo){
     elemento_multimedia.controls = true;
     contenedor_multimedia.appendChild(elemento_multimedia);
   }
-  else{
+  else if (tipo == 'imagen'){
     elemento_multimedia = document.createElement('img');
     elemento_multimedia.src = '/imagen';
     elemento_multimedia.className = 'imagen';
     contenedor_multimedia.appendChild(elemento_multimedia);
   }
-  ;
 };
 // --------------------------------------------------------------------|
 
 socket.on('cargar_archivo', (data)=>{
-  console.log(data);
   crear_elemento_media(data.tipo);
 });
 
