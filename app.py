@@ -102,7 +102,7 @@ def handle_verificar_archivo_disponible():
 def handle_txtChange(data):
     global txt
     txt = data
-    emit("txt_recive",data, broadcast=True)
+    emit("txt_recive",data, broadcast=True, skip_sid=session.get('usr_sid'))
     enviar_archivo(ult_arch)
 
 # *************************************************************************|
