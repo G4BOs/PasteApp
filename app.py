@@ -40,7 +40,7 @@ cargar_nombre()
 
 @app.route('/api',methods=['GET'])
 def api():
-    datos = {'prueba': 'OK', 'dato': 999, 'nombre': 'Daniel'}
+    datos = {'prueba': 'OK', 'dato': 999, 'nombre': 'Daniel', 'message': 'Hola DANIEL'}
     return jsonify(datos)
 
 @app.route('/')
