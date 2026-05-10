@@ -23,7 +23,8 @@ port = int( os.getenv('PORT', '9000') )
 print(f"SERVIDOR INICIADO EN PUERTO: {port}")
 # -------------------------------------------------|
 
-txt = ''
+
+txt = r.get('texto')
 ult_arch = ''
 
 # -------------------------------------------------|
