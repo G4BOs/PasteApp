@@ -11,7 +11,8 @@ import redis
 
 # -------------------------------------------------|
 r = redis.Redis(host='192.168.88.244', port=6379, decode_responses=True)
-
+p = r.pubsub()
+p.subscribe('__keyspace@0__:texto')
 # -------------------------------------------------|
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv('SECRET_KEY')
@@ -22,6 +23,9 @@ port = int( os.getenv('PORT', '9000') )
 #SERVIDOR INICIADO 
 print(f"SERVIDOR INICIADO EN PUERTO: {port}")
 # -------------------------------------------------|
+for message in p.listen():
+    socketio.emit('txt_recive', r.get('texto'))
+    
 
 
 txt = r.get('texto')
