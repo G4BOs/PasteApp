@@ -38,6 +38,10 @@ def cargar_nombre():
 # Carga el nombre del ultimo archivo al iniciar servidor
 cargar_nombre()
 
+@app.route('/api',methods=['GET'])
+def api():
+    datos = {'prueba': 'OK', 'dato': 999, 'nombre': 'Daniel'}
+    return jsonify(datos)
 
 @app.route('/')
 def index():
