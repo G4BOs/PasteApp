@@ -134,4 +134,11 @@ def handle_connect():
 
 # *************************************************************************|
 if __name__ == '__main__':
-    socketio.run(app,host='0.0.0.0', debug=False, port=port)
+    socketio.run(
+            app,
+            host='0.0.0.0',
+            debug=False,
+            port=port,
+            certfile=os.getenv('SSL_CERTFILE') if (os.getenv('HTTPS') == 'true') else None,
+            keyfile=os.getenv('SSL_KEYFILE') if (os.getenv('HTTPS') == 'true') else None
+            )
