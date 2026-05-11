@@ -80,7 +80,7 @@ function desactivar(elemento){
 // --------------------------------------------------------------------|
 
 inp_file.addEventListener('change', ()=>{
-  inp_file_btn.textContent = `Archivo elegido: ${inp_file.files[0]?.name}`
+  document.querySelector('.input_file_txt').innerText = `${inp_file.files[0]?.name}`
 });
 
 // -----------------------------------------------------------------|
