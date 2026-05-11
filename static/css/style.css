@@ -16,7 +16,7 @@ body{
 }
 
 #contenedor_area_texto{
-    width: 90%;
+    width: 99%;
     margin: auto;
     position: relative;
 }
@@ -40,7 +40,7 @@ textarea:focus{
 #btn_copiar{
     position: absolute;
     bottom: 55px;
-    right: -20px;
+    right: 20px;
     height: 30px;
     width: 50px;
     background-color: #B2AA8E;
@@ -60,7 +60,7 @@ textarea:focus{
 
 #contenedor_area_archivo{
     border: 3px solid #B2AA8E;
-    width: 90%;
+    width: 99%;
     margin: auto;
     min-height: 100px;
     padding: 10px;
@@ -143,6 +143,10 @@ textarea:focus{
 #txt_archivo{
     margin: 10px;
 }
+.media{
+  margin: 0 auto;
+  display: block;
+}
 
 .btn-subir{
   background-color: #B2AA8E;
@@ -160,5 +164,8 @@ textarea:focus{
 
 #codigo{
   min-height: 40px;
+  width: 95%;
+  margin: 0 auto;
+  display: block;
 }
 

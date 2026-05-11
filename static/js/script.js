@@ -1,3 +1,6 @@
+if ('ServiceWorker' in navigator){
+  navigator.serviceWorker.register('/static/js/sw.js');
+};
 // Coneccion con SocketIo
 socket = io();
 // -------------------------------------------------------------|
@@ -18,7 +21,7 @@ function crear_elemento_media(tipo){
   if (tipo == 'video' || tipo == 'audio'){
     elemento_multimedia = document.createElement(`${tipo}`);
     elemento_multimedia.src = `/${tipo}`;
-    elemento_multimedia.className = `${tipo}`;
+    elemento_multimedia.className = `media ${tipo}`;
     elemento_multimedia.controls = true;
     contenedor_multimedia.appendChild(elemento_multimedia);
   }
@@ -27,8 +30,12 @@ function crear_elemento_media(tipo){
     elemento_multimedia.src = '/imagen';
     elemento_multimedia.className = 'imagen';
     contenedor_multimedia.appendChild(elemento_multimedia);
-  }
-  elemento_multimedia.load()
+  };
+  let media = document.querySelector('.media');
+   if (media.localName == 'video'){
+      media.src = `/video?t=${Date.now()}`;
+      media.load();
+   };
 };
 // --------------------------------------------------------------------|
 
