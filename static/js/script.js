@@ -28,6 +28,7 @@ function crear_elemento_media(tipo){
     elemento_multimedia.className = 'imagen';
     contenedor_multimedia.appendChild(elemento_multimedia);
   }
+  elemento_multimedia.load()
 };
 // --------------------------------------------------------------------|
 
@@ -98,7 +99,6 @@ xhr.upload.onprogress = function(e){
 
 xhr.onload = function(){
     const respuesta = JSON.parse(xhr.responseText);
-    console.log(respuesta);
 };
 // ---------------------------------------------------------------|
 
