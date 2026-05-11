@@ -140,6 +140,6 @@ if __name__ == '__main__':
             host='0.0.0.0',
             debug=False,
             port=port,
-            certfile=os.getenv('SSL_CERTFILE') if (os.getenv('HTTPS')=='true') else None,
-            keyfile=os.getenv('SSL_KEYFILE') if (os.getenv('HTTPS') == 'true') else None
+            certfile="192.168.88.244+2.pem" if (os.getenv('HTTPS')=='true') else None,
+            keyfile="192.168.88.244+2-key.pem" if (os.getenv('HTTPS') == 'true') else None
             )
