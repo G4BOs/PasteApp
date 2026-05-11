@@ -197,6 +197,7 @@ li{
 .active{
   background-color: #B2AA8E;
   color: #0C1B33;
+  font-size: 20px;
 }
 .input_file_txt{
   margin: 5px 0;

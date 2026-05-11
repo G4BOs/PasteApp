@@ -121,6 +121,7 @@ def handle_txtChange(data):
     txt = data
     r.set('texto',txt)
     emit("txt_recive",data, broadcast=True, skip_sid=session.get('usr_sid'))
+    emit("txt_recive_code",data, broadcast=True)
     enviar_archivo(ult_arch)
 
 # *************************************************************************|

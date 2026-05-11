@@ -104,11 +104,14 @@ txt_area.addEventListener("input",()=>{
 
 socket.on('txt_recive', (data)=>{
     txt_area.value = data;
+});
+socket.on('txt_recive_code', (data)=>{
     codigo.textContent = data;
     codigo.removeAttribute('data-highlighted');
     const result = hljs.highlightAuto(data);
     codigo.innerHTML = result.value;
 });
+
 
 
 
