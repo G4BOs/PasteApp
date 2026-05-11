@@ -44,8 +44,29 @@ socket.on('cargar_archivo', (data)=>{
 });
 
 
+// --------------------------------------------------------------------|
+let contenedores = {
+  'portapapeles': document.querySelector('#contenedor_area_texto'),
+  'archivo':      document.querySelector('#contenedor_area_archivo'),
+  'li_portapapeles': document.querySelector('.li_portapapeles'),
+  'li_archivo': document.querySelector('.li_archivo')
+};
 
-
+function desactivar(elemento){
+  switch (elemento){
+    case 'portapapeles':
+      contenedores['portapapeles'].classList.add('desactive');
+      contenedores['archivo'].classList.remove('desactive');
+      contenedores['li_archivo'].classList.add('active');
+      contenedores['li_portapapeles'].classList.remove('active');
+      break;
+    case 'archivo':
+      contenedores['archivo'].classList.add('desactive');
+      contenedores['portapapeles'].classList.remove('desactive');
+      contenedores['li_portapapeles'].classList.add('active');
+      contenedores['li_archivo'].classList.remove('active');
+  }
+};
 
 
 

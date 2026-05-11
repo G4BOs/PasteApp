@@ -14,7 +14,13 @@
 <body>
     <!--Contenedor principal-->
    <div class="contenedor">
-        <section id="contenedor_area_texto">
+     <nav>
+       <ul>
+         <li class="li_portapapeles active" onclick='desactivar("archivo")'>Portapapeles</li>
+         <li class='li_archivo' onclick='desactivar("portapapeles")'>Archivo</li>
+       </ul>
+     </nav>
+        <section id="contenedor_area_texto" class="c">
             <p class="p port">Portapapeles</p><br>
             <textarea 
                 id="txt_area_paste"
@@ -28,7 +34,7 @@
             <button id="btn_copiar">Copiar</button>
             </pre>
         </section>
-        <section id="contenedor_area_archivo">
+        <section id="contenedor_area_archivo" class="desactive">
             <p class="p port">Subir Archivo</p>
             <div class="archivo">
                 <input type="file" id="input_file" style="display: none;">
@@ -42,7 +48,7 @@
             </div>
             <div class="archivo disponible">
                 <p id="txt_archivo"><strong>Archivo disponible:</strong> Ninguno</p>
-                <a id="dwl" href="/download">DESCARGAR</a>
+  <a id="dwl" href="/download">DESCARGAR</a>
             </div>
 
             <div class="contenedor_multimedia">
