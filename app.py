@@ -8,12 +8,8 @@ from dotenv import load_dotenv
 load_dotenv()
 import secrets
 import redis
-import threading
 
 # -------------------------------------------------|
-r = redis.Redis(host='192.168.88.244', port=6379, decode_responses=True)
-p = r.pubsub()
-p.subscribe('__keyspace@0__:texto')
 # -------------------------------------------------|
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv('SECRET_KEY')
@@ -24,12 +20,6 @@ port = int( os.getenv('PORT', '9000') )
 #SERVIDOR INICIADO 
 print(f"SERVIDOR INICIADO EN PUERTO: {port}")
 # -------------------------------------------------|
-def redis_listenner():
-    for message in p.listen():
-        socketio.emit('txt_recive', r.get('texto'))
-
-thread = threading.Thread(target=redis_listenner, daemon=True)
-thread.start()
 
 
 txt = r.get('texto')
@@ -140,7 +130,6 @@ def handle_connect():
         session['usr_sid'] = request.sid # type: ignore
     cargar_nombre()
     emit('ult_archivo', ult_arch)
-    txt = r.get('texto')
     emit('txt_recive', txt)
 
 # *************************************************************************|
