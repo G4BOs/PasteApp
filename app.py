@@ -22,6 +22,7 @@ print(f"SERVIDOR INICIADO EN PUERTO: {port}")
 # -------------------------------------------------|
 r = redis.Redis(host='192.168.88.244',port=6379, decode_responses=True)
 
+txt = ''
 ult_arch = ''
 
 # -------------------------------------------------|
