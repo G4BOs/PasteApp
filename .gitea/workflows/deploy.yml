@@ -11,6 +11,6 @@ jobs:
     steps:
       - name: Pull and Restart
         run: |
-          cd /home/gabriel/PasteApp/PasteApp
+          cd {{secrets.DEPLOY_PATH}}
           git pull
           sudo systemctl restart pasteapp
