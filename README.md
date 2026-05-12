@@ -7,7 +7,7 @@
 `vapid --applicationServerKey`
 
 ## Crear entorno virtual *.env*
-`/.env:`
+### */.env*
 HTTPS=true *false si no activaste mkcert*
 HOST='0.0.0.0'
 PORT=9000 *O el puerto que vas a usar*
