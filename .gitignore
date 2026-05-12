@@ -1,6 +1,5 @@
 .venv
-uploads/ultimo
-uploads/info.txt
+uploads/*
 .env
 localhost+2-key.pem
 localhost+2.pem 
