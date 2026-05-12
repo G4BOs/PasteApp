@@ -39,7 +39,7 @@ def cargar_nombre():
     except FileNotFoundError:
         ult_arch = ""
         with open('uploads/info.txt', "w") as f:
-            f.write("")
+            f.write("Aun no hay archivos aqui...")
 
 # Carga el nombre del ultimo archivo al iniciar servidor
 cargar_nombre()
@@ -122,7 +122,6 @@ def handle_txtChange(data):
     r.set('texto',txt)
     emit("txt_recive",data, broadcast=True, skip_sid=session.get('usr_sid'))
     emit("txt_recive_code",data, broadcast=True)
-    enviar_archivo(ult_arch)
 
 # *************************************************************************|
 @socketio.on('connect')
@@ -140,6 +139,6 @@ if __name__ == '__main__':
             host='0.0.0.0',
             debug=False,
             port=port,
-            certfile="192.168.88.244+2.pem" if (os.getenv('HTTPS')=='true') else None,
-            keyfile="192.168.88.244+2-key.pem" if (os.getenv('HTTPS') == 'true') else None
+            certfile=(os.getenv('SSL_CERTFILE')),
+            keyfile=(os.getenv('SSL_CERTFILE_KEY'))
             )
