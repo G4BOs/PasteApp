@@ -1,3 +1,5 @@
+# Documentación en proceso...
+
 ## INSTALACIÓN DE ENTORNO
 - `python3 -m venv .venv`
 - `source .venv/bin/activate` *O en Fish* `...activate.fish`

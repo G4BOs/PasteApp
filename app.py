@@ -7,8 +7,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 import secrets
-import redis
-
+from moduls import wp_modul 
 # -------------------------------------------------|
 # -------------------------------------------------|
 app = Flask(__name__)
@@ -20,7 +19,6 @@ port = int( os.getenv('PORT', '9000') )
 #SERVIDOR INICIADO 
 print(f"SERVIDOR INICIADO EN PUERTO: {port}")
 # -------------------------------------------------|
-r = redis.Redis(host='192.168.88.244',port=6379, decode_responses=True)
 
 txt = ''
 ult_arch = ''
@@ -59,6 +57,27 @@ def websocket(ws):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/obt_publicKey',methods=['GET'])
+def obt_publicKey():
+    data = jsonify({'public_key': os.getenv('JS_PUBLIC_KEY')})
+    print(data)
+    return data
+
+@app.route('/suscribir', methods=['POST'])
+def suscribir():
+    data = request.get_json()
+    wp_modul.suscribir(data)
+    return '200'
+
+
+@app.route('/notificar', methods=['POST'])
+def notificar():
+    data = request.get_json()
+    mensaje = data['mensaje']
+    wp_modul.notificar(mensaje)
+    return '200'
+
 
 @app.route('/upload',methods=["POST"])
 def upload():
@@ -119,7 +138,6 @@ def handle_verificar_archivo_disponible():
 def handle_txtChange(data):
     global txt
     txt = data
-    r.set('texto',txt)
     emit("txt_recive",data, broadcast=True, skip_sid=session.get('usr_sid'))
     emit("txt_recive_code",data, broadcast=True)
 

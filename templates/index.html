@@ -16,8 +16,8 @@
    <div class="contenedor">
      <nav>
        <ul>
-         <li class="li_portapapeles active" onclick='desactivar("archivo")'>Portapapeles</li>
-         <li class='li_archivo' onclick='desactivar("portapapeles")'>Archivo</li>
+         <li class="li_portapapeles active">Portapapeles</li>
+         <li class='li_archivo'>Archivo</li>
        </ul>
      </nav>
         <section id="contenedor_area_texto" class="c">
@@ -40,7 +40,7 @@
                 <input type="file" id="input_file" style="display: none;">
                 <label for="input_file" class="btn-subir" >Elegir archivo</label>
                 <p class="input_file_txt">_</p>
-                <button class="btn" onclick="subir()">Subir</button>
+                <button class="btn_subir">Subir</button>
                 <div id="barr">
                     <div id="progress_barr">
                         <p id="porcentaje">0</p>
@@ -59,11 +59,15 @@
         </section>
     
 
+        <button class="btn_suscribirse">SUSCRIBIRSE</button>
+        <input  class="mensaje" type="text">
+        <button class="btn_enviar">ENVIAR A TODOS</button>
 
    </div> 
 </body>
+<script type="module" src="/static/js/notificaciones.js"></script>
 <script src="/static/js/highlight.min.js"></script>
 <script>hljs.highlightAll();</script>
 <script src="/static/js/socket.io.min.js"></script>
-<script src="/static/js/script.js"></script>
+<script type="module" src="/static/js/script.js"></script>
 </html>

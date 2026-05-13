@@ -1,8 +1,11 @@
+import { notificar } from './notificaciones.js';
+import { suscribirse } from './notificaciones.js';
+const io = window.io;
 if ('ServiceWorker' in navigator){
   navigator.serviceWorker.register('/static/js/sw.js');
 };
 // Coneccion con SocketIo
-socket = io();
+let socket = io();
 // -------------------------------------------------------------|
 const codigo = document.querySelector("#codigo");
 const txt_area = document.querySelector("#txt_area_paste");
@@ -12,6 +15,11 @@ const imagen_a= document.querySelector("#imagen");
 const inp_file = document.querySelector('#input_file');
 const inp_file_btn = document.querySelector('.btn-subir');
 const contenedor_multimedia = document.querySelector('.contenedor_multimedia');
+const btn_enviar = document.querySelector('.btn_enviar');
+const mensaje = document.querySelector('.mensaje');
+const btn_suscribirse = document.querySelector('.btn_suscribirse');
+const btn_subir = document.querySelector('.btn_subir')
+
 // ------------------------------------------------------------|
 
 // ------------------------------------------------------------|
@@ -32,7 +40,7 @@ function crear_elemento_media(tipo){
     contenedor_multimedia.appendChild(elemento_multimedia);
   };
   let media = document.querySelector('.media');
-   if (media.localName == 'video'){
+   if ( media && media.localName == 'video'){
       media.src = `/video?t=${Date.now()}`;
       media.load();
    };
@@ -51,6 +59,9 @@ let contenedores = {
   'li_portapapeles': document.querySelector('.li_portapapeles'),
   'li_archivo': document.querySelector('.li_archivo')
 };
+contenedores['li_portapapeles'].addEventListener('click', ()=>{desactivar('archivo')});
+contenedores['li_archivo'].addEventListener('click',()=>{desactivar('portapapeles')});
+
 
 function desactivar(elemento){
   switch (elemento){
@@ -68,7 +79,14 @@ function desactivar(elemento){
   }
 };
 
+// --------------------------------------------------------------------|
+btn_suscribirse.addEventListener('click',async ()=>{
+  await suscribirse()
+} );
 
+btn_enviar.addEventListener('click', async ()=>{
+ await notificar(mensaje.value)
+});
 
 
 
@@ -134,7 +152,7 @@ xhr.onload = function(){
 // ---------------------------------------------------------------|
 
 const input_file = document.querySelector("#input_file");
-
+btn_subir.addEventListener('click',()=>{subir()});
 function subir(){
     const formData = new FormData();
     formData.append('archivo', input_file.files[0]);
