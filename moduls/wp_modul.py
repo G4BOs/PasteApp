@@ -13,10 +13,10 @@ suscriptions = []
 
 
 def notificar(mensaje: str):
-    print(mensaje)
     """
     Notificar a todos los registrados, recibe un dict de 'request.get_json()'
     """
+    
     datos = json.dumps({
         'title': 'Paste App',
         'body': mensaje,
@@ -30,13 +30,20 @@ def notificar(mensaje: str):
         "vibrate": [200,100,200],
         "tag": "Notificacion-mensaje"
         })
-    for sub in suscriptions:
-        pywebpush.webpush(
-                subscription_info=sub,
-                data=datos,
-                vapid_private_key=os.getenv('PRIVATE_KEY') ,
-                vapid_claims={"sub": f'mailto:{os.getenv("VAPID_MAIL")}'}
-                )
+    
+    for sub in suscriptions[:]:
+        try:
+            pywebpush.webpush(
+                    subscription_info=sub,
+                    data=datos,
+                    vapid_private_key=os.getenv('PRIVATE_KEY') ,
+                    vapid_claims={"sub": f'mailto:{os.getenv("VAPID_MAIL")}'}
+                    )
+        except pywebpush.WebPushException as ex:
+            if ex.response.status_code in [404,410]: # type: ignore
+                print('Usuario no encontrado, borrando')
+                suscriptions.remove(sub)
+                print(suscriptions)
 
 def check_endpoint(endpoint: str)->bool:
     """
