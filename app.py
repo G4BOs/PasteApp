@@ -1,31 +1,51 @@
-# IMPORTS 
-from flask import Flask, jsonify, request, render_template, redirect, send_file, session
-from flask_socketio import SocketIO, emit, disconnect
-from flask_sock import Sock
-import gevent
+# ******************************************************************|   
+#                            IMPORTS
+# ******************************************************************|
+
+from flask import (
+        Flask,
+        jsonify,
+        request,
+        render_template,
+        send_file,
+        session
+        )
+
+from flask_socketio import (
+        SocketIO,
+        emit
+        )
+
 import os
+
 from dotenv import load_dotenv
 load_dotenv()
-import secrets
+
 from moduls import wp_modul 
-# -------------------------------------------------|
-# -------------------------------------------------|
+
+# ------------------------------------------------------------------|
+# ------------------------------------------------------------------|
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv('SECRET_KEY')
 socketio = SocketIO(app, async_mode='gevent')
-sock = Sock(app)
 
 port = int( os.getenv('PORT', '9000') )
+
+
 #SERVIDOR INICIADO 
 print(f"SERVIDOR INICIADO EN PUERTO: {port}")
-# -------------------------------------------------|
+# -------------------------------------------------------------------|
+
 
 txt = ''
 ult_arch = ''
 
-# -------------------------------------------------|
-#                     Funciones                    |
-# -------------------------------------------------|
+
+# ******************************************************************|
+#                            FUNCTIONS                    
+# ******************************************************************|
+
+
 def cargar_nombre():
     """
     Cargar el nombre del archivo alojado
@@ -39,73 +59,42 @@ def cargar_nombre():
         with open('uploads/info.txt', "w") as f:
             f.write("Aun no hay archivos aqui...")
 
+
 # Carga el nombre del ultimo archivo al iniciar servidor
 cargar_nombre()
 
-@app.route('/api',methods=['GET'])
-def api():
-    datos = {'prueba': 'OK', 'dato': 999, 'nombre': 'Daniel', 'message': 'Hola DANIEL'}
-    return jsonify(datos)
 
-@sock.route('/ws')
-def websocket(ws):
-    while True:
-        data = ws.receive()
-        ws.send(data)
+# ------------------------------------------------------------------|
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/obt_publicKey',methods=['GET'])
-def obt_publicKey():
-    data = jsonify({'public_key': os.getenv('JS_PUBLIC_KEY')})
-    print(data)
-    return data
-
-@app.route('/suscribir', methods=['POST'])
-def suscribir():
-    data = request.get_json()
-    wp_modul.suscribir(data)
-    return '200'
+def enviar_archivo(archivo: str):
+    '''
+    Emite el evento "cargar_archivo" al request
+    Que manda un json con el dato del tipo de archivo alojado
+    '''
+    tipo = tipo_de_archivo(archivo)
+    socketio.emit(
+            'cargar_archivo',{
+                'tipo': tipo,
+                'ruta': f'/{tipo}'
+                },
+            to=session.get('usr_sid'))
 
 
-@app.route('/notificar', methods=['POST'])
-def notificar():
-    data = request.get_json()
-    mensaje = data['mensaje']
-    wp_modul.notificar(mensaje)
-    return '200'
+# ------------------------------------------------------------------|
 
 
-@app.route('/upload',methods=["POST"])
-def upload():
-    archivo = request.files['archivo']
-    archivo.save('uploads/ultimo')
-    with open('uploads/info.txt','w') as f:
-        f.write(archivo.filename or 'noname')
-    cargar_nombre()
-    socketio.emit('ult_archivo',ult_arch)
-    return jsonify({'ok':True})
+def enviar_multimedia():
+    return send_file(
+            'uploads/ultimo',
+            download_name=ult_arch,
+            as_attachment=True
+            )
 
-@app.route('/download', methods=['GET'])
-def download():
-    return send_file('uploads/ultimo', download_name=ult_arch, as_attachment=True)
 
-@app.route('/video',methods=['GET'])
-def video():
-    return send_file('uploads/ultimo', download_name=ult_arch, as_attachment=True)
+# ------------------------------------------------------------------|
 
-@app.route('/imagen', methods=['GET'])
-def imagen():
-    return send_file('uploads/ultimo', download_name=ult_arch, as_attachment=True)
 
-@app.route('/audio', methods=['GET'])
-def audio():
-    return send_file('uploads/ultimo', download_name=ult_arch, as_attachment=True)
-
-# -------------------------------------------------------------------|
 def tipo_de_archivo(archivo):
     formats = {
             'video': ['mp4','avi'],
@@ -119,29 +108,126 @@ def tipo_de_archivo(archivo):
     return 'otro'
 
 
-#--------------------------------------------------------------------|
-def enviar_archivo(archivo):
-    tipo = tipo_de_archivo(archivo)
-    socketio.emit('cargar_archivo',{'tipo': tipo, 'ruta': f'/{tipo}'}, to=session.get('usr_sid'))
+# ******************************************************************|
+#                            ROUTES
+# ******************************************************************|
 
 
-# -------------------------------------------------------------------|
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+# ------------------------------------------------------------------|
+
+
+@app.route('/obt_publicKey',methods=['GET'])
+def obt_publicKey():
+    data = jsonify(
+            {'public_key': os.getenv('JS_PUBLIC_KEY')}
+            )
+    return data
+
+
+# ------------------------------------------------------------------|
+
+
+@app.route('/suscribir', methods=['POST'])
+def suscribir():
+    data = request.get_json()
+    wp_modul.suscribir(data)
+    session['usr_endpoint'] = data['endpoint']
+        
+
+    return '200'
+
+
+# ------------------------------------------------------------------|
+
+
+@app.route('/notificar', methods=['POST'])
+def notificar():
+    data = request.get_json()
+    mensaje = data['mensaje']
+    wp_modul.notificar(mensaje,session.get('usr_endpoint'))
+    return '200'
+
+
+# ------------------------------------------------------------------|
+
+
+@app.route('/upload',methods=["POST"])
+def upload():
+    archivo = request.files['archivo']
+    archivo.save('uploads/ultimo')
+    with open('uploads/info.txt','w') as f:
+        f.write(archivo.filename or 'noname')
+    cargar_nombre()
+    socketio.emit('ult_archivo',ult_arch)
+    return jsonify({'ok':True})
+
+
+# ------------------------------------------------------------------|
+
+
+@app.route('/download',methods=['GET'])
+def download():
+    return enviar_multimedia()
+
+
+# ------------------------------------------------------------------|
+
+
+@app.route('/video',methods=['GET'])
+def video():
+    return enviar_multimedia()
+
+
+# ------------------------------------------------------------------|
+
+
+@app.route('/imagen', methods=['GET'])
+def imagen():
+    return enviar_multimedia()
+
+
+# ------------------------------------------------------------------|
+
+
+@app.route('/audio', methods=['GET'])
+def audio():
+    return enviar_multimedia()
+
+
+# ******************************************************************|
+#                         SOCKET EVENTS
+# ******************************************************************|
+
 
 @socketio.on('verificar_archivo_disponible')
 def handle_verificar_archivo_disponible():
     enviar_archivo(ult_arch)
 
 
+# ------------------------------------------------------------------|
 
-# -------------------------------------------------------------------------|
+
 @socketio.on('txt_change')
 def handle_txtChange(data):
     global txt
     txt = data
-    emit("txt_recive",data, broadcast=True, skip_sid=session.get('usr_sid'))
+    emit(
+            "txt_recive",
+            data,
+            broadcast=True,
+            skip_sid=session.get('usr_sid')
+            )
     emit("txt_recive_code",data, broadcast=True)
 
-# *************************************************************************|
+
+# ------------------------------------------------------------------|
+
+
 @socketio.on('connect')
 def handle_connect():
     if not 'usr_sid' in session:
@@ -150,7 +236,10 @@ def handle_connect():
     emit('ult_archivo', ult_arch)
     emit('txt_recive', txt)
 
-# *************************************************************************|
+
+# ******************************************************************|
+
+
 if __name__ == '__main__':
     socketio.run(
             app,

@@ -1,44 +1,81 @@
 import { notificar } from './notificaciones.js';
 import { suscribirse } from './notificaciones.js';
 const io = window.io;
+// *****************************************************************|
+//                          ServiceWorker
+// *****************************************************************|
+
 if ('ServiceWorker' in navigator){
   navigator.serviceWorker.register('/static/js/sw.js');
 };
-// Coneccion con SocketIo
+// Coneccion con SocketIo | o |
+
 let socket = io();
-// -------------------------------------------------------------|
-const codigo = document.querySelector("#codigo");
-const txt_area = document.querySelector("#txt_area_paste");
-const progress_barr = document.querySelector("#progress_barr");
-const porcentaje_barr = document.querySelector("#porcentaje");
-const imagen_a= document.querySelector("#imagen");
-const inp_file = document.querySelector('#input_file');
-const inp_file_btn = document.querySelector('.btn-subir');
-const contenedor_multimedia = document.querySelector('.contenedor_multimedia');
-const btn_enviar = document.querySelector('.btn_enviar');
-const mensaje = document.querySelector('.mensaje');
-const btn_suscribirse = document.querySelector('.btn_suscribirse');
-const btn_subir = document.querySelector('.btn_subir')
+
+// *****************************************************************|
+//                      ELEMENTOS DEL DOM 
+// *****************************************************************|
+const codigo =
+  document.querySelector("#codigo");
+
+const txt_area =
+  document.querySelector("#txt_area_paste");
+
+const progress_barr =
+  document.querySelector("#progress_barr");
+
+const inp_file = 
+  document.querySelector('#input_file');
+
+const contenedor_multimedia = 
+  document.querySelector('.contenedor_multimedia');
+
+const btn_enviar =
+  document.querySelector('.btn_enviar');
+
+const mensaje =
+  document.querySelector('.mensaje');
+
+const btn_suscribirse =
+  document.querySelector('.btn_suscribirse');
+
+const btn_subir =
+  document.querySelector('.btn_subir')
 
 // ------------------------------------------------------------|
 
-// ------------------------------------------------------------|
+// *****************************************************************|
+//                           FUNCIONES
+// *****************************************************************|
+
+
 function crear_elemento_media(tipo){
-  let elemento_multimedia ;
-  contenedor_multimedia.replaceChildren();
-  if (tipo == 'video' || tipo == 'audio'){
-    elemento_multimedia = document.createElement(`${tipo}`);
-    elemento_multimedia.src = `/${tipo}`;
-    elemento_multimedia.className = `media ${tipo}`;
-    elemento_multimedia.controls = true;
-    contenedor_multimedia.appendChild(elemento_multimedia);
+
+    let elemento_multimedia ;
+    contenedor_multimedia.replaceChildren();
+  
+    if (tipo == 'video' || tipo == 'audio'){
+      
+      elemento_multimedia = document.createElement(`${tipo}`);
+      
+      elemento_multimedia.src = `/${tipo}`;
+      
+      elemento_multimedia.className = `media ${tipo}`;
+      
+      elemento_multimedia.controls = true;
+      
+      contenedor_multimedia.appendChild(elemento_multimedia);
   }
+
+
   else if (tipo == 'imagen'){
     elemento_multimedia = document.createElement('img');
     elemento_multimedia.src = '/imagen';
     elemento_multimedia.className = 'imagen';
     contenedor_multimedia.appendChild(elemento_multimedia);
   };
+
+
   let media = document.querySelector('.media');
    if ( media && media.localName == 'video'){
       media.src = `/video?t=${Date.now()}`;
@@ -80,28 +117,27 @@ function desactivar(elemento){
 };
 
 // --------------------------------------------------------------------|
+
+
 btn_suscribirse.addEventListener('click',async ()=>{
   await suscribirse()
 } );
+
 
 btn_enviar.addEventListener('click', async ()=>{
  await notificar(mensaje.value)
 });
 
 
-
-
-
-
-
-
 // --------------------------------------------------------------------|
+
 
 inp_file.addEventListener('change', ()=>{
   document.querySelector('.input_file_txt').innerText = `${inp_file.files[0]?.name}`
 });
 
 // -----------------------------------------------------------------|
+
 
 const copiar_btn = document.querySelector("#btn_copiar");
 copiar_btn.addEventListener('click', ()=>{
@@ -115,6 +151,7 @@ copiar_btn.addEventListener('click', ()=>{
 });
 
 // -----------------------------------------------------------------|
+
 
 txt_area.addEventListener("input",()=>{
     socket.emit("txt_change",txt_area.value)
@@ -146,9 +183,6 @@ xhr.upload.onprogress = function(e){
     progress_barr.innerText = `${porcentaje}%`
 };
 
-xhr.onload = function(){
-    const respuesta = JSON.parse(xhr.responseText);
-};
 // ---------------------------------------------------------------|
 
 const input_file = document.querySelector("#input_file");
